@@ -1,0 +1,36 @@
+CLIENT_SECRET_FILE = 'client_secrets.json'
+API_SERVICE_NAME = 'sheets'
+API_VERSION = 'v4'
+SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+
+service = Create_Service(CLIENT_SECRET_FILE, API_SERVICE_NAME, API_VERSION, SCOPES)
+
+gsheet_id = '18DvXjo3EpctYhSwGroZjJ7NEZKrtA-hMyndpfltIiBM'
+spreadsheets = service.spreadsheets()
+
+def add_sheets(gsheet_id, sheet_name):
+    try:
+        request_body = {
+            'requests': [{
+                'addSheet': {
+                    'properties': {
+                        'title': sheet_name,
+                        'tabColor': {
+                            'red': 0.44,
+                            'green': 0.99,
+                            'blue': 0.50
+                        }
+                    }
+                }
+            }]
+        }
+
+        response = spreadsheets.batchUpdate(
+            spreadsheetId=gsheet_id,
+            body=request_body
+        ).execute()
+
+        return response
+    except Exception as e:
+        print(e)
+"""
